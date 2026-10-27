@@ -6,20 +6,18 @@ import logging
 import os
 import dagshub
 
-# Set up DagsHub credentials for MLflow tracking
+# Use DagsHub when credentials are available; otherwise use the local MLflow
+# database created by model_evaluation.py.
 dagshub_token = os.getenv("DAGSHUB_PAT")
-if not dagshub_token:
-    raise EnvironmentError("DAGSHUB_PAT environment variable is not set")
-
-os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
-os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
-
-dagshub_url = "https://dagshub.com"
-repo_owner = "campusx-official"
-repo_name = "mlops-project-2"
-
-# Set up MLflow tracking URI
-mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
+if dagshub_token:
+    os.environ["MLFLOW_TRACKING_USERNAME"] = dagshub_token
+    os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
+    dagshub_url = "https://dagshub.com"
+    repo_owner = "campusx-official"
+    repo_name = "mlops-project-2"
+    mlflow.set_tracking_uri(f"{dagshub_url}/{repo_owner}/{repo_name}.mlflow")
+else:
+    mlflow.set_tracking_uri("sqlite:///mlflow.db")
 
 # logging configuration
 logger = logging.getLogger('model_registration')
