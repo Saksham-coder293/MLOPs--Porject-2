@@ -12,7 +12,7 @@ class TestModelLoading(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         # Set up DagsHub credentials for MLflow tracking
-        dagshub_token = os.getenv("DAGSHUB_PAT")
+        dagshub_token = os.getenv("c45732006f14b21d6f59affb6b26d96a2599adab")
         if not dagshub_token:
             raise EnvironmentError("DAGSHUB_PAT environment variable is not set")
 
@@ -21,7 +21,7 @@ class TestModelLoading(unittest.TestCase):
 
         dagshub_url = "https://dagshub.com"
         repo_owner = "Saksham-coder293"
-        repo_name = "Mlops-prorject-2"
+        repo_name = "Mlops-porject-2"
 
         # Set up MLflow tracking URI
         mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
